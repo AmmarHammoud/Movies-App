@@ -1,0 +1,9 @@
+abstract class MostPopularMoviesStates{}
+
+class MostPopularMoviesInitialState extends MostPopularMoviesStates{}
+
+class GetMostPopularMoviesSuccessState extends MostPopularMoviesStates{}
+
+class GetMostPopularMoviesLoadingState extends MostPopularMoviesStates{}
+
+class GetMostPopularMoviesErrorState extends MostPopularMoviesStates{}
