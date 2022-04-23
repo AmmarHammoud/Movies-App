@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "203510117833",
+    "project_id": "fir-movies-46849",
+    "storage_bucket": "fir-movies-46849.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:203510117833:android:71a1ac4af8d3739c366418",
+        "android_client_info": {
+          "package_name": "com.ammar.flutter_app2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "203510117833-ufb5i7bf148sv8ang5973r2fg3gk0hjk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ammar.flutter_app2",
+            "certificate_hash": "c376f510b724f5aa241607f0f5a6930e2874d891"
+          }
+        },
+        {
+          "client_id": "203510117833-3pfvjdrmau974tht6bictv1cds4vts08.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJjWtaNJG6LdsxDk3IP8gnLUcn1euCZkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "203510117833-3pfvjdrmau974tht6bictv1cds4vts08.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

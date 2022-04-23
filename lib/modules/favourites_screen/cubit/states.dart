@@ -1,0 +1,9 @@
+abstract class GetFavouriteMoviesStates{}
+
+class GetFavouriteMoviesInitialState extends GetFavouriteMoviesStates{}
+
+class GetFavouriteMoviesLoadingState extends GetFavouriteMoviesStates{}
+
+class GetFavouriteMoviesSuccessState extends GetFavouriteMoviesStates{}
+
+class GetFavouriteMoviesErrorState extends GetFavouriteMoviesStates{}

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app2/modules/favourites_screen/favourites_screen.dart';
 import 'package:flutter_app2/modules/home_screen/cubit/coming_soon_movies_cubit/cubit.dart';
 import 'package:flutter_app2/modules/home_screen/cubit/coming_soon_movies_cubit/states.dart';
 import 'package:flutter_app2/modules/home_screen/cubit/most_popular_movies_cubit/cubit.dart';
@@ -7,13 +10,23 @@ import 'package:flutter_app2/modules/home_screen/cubit/most_popular_movies_cubit
 import 'package:flutter_app2/modules/home_screen/cubit/top_movies_cubit/cubit.dart';
 import 'package:flutter_app2/modules/home_screen/cubit/top_movies_cubit/states.dart';
 import 'package:flutter_app2/modules/home_screen/search_screen/search_screen.dart';
+import 'package:flutter_app2/modules/login_screen/login_screen.dart';
 import 'package:flutter_app2/modules/movie_screen/cubit/cubit.dart';
 import 'package:flutter_app2/modules/movie_screen/cubit/states.dart';
 import 'package:flutter_app2/modules/movie_screen/movie_screen.dart';
+import 'package:flutter_app2/modules/profile_screen/profile_screen.dart';
+import 'package:flutter_app2/shared/chach_helper.dart';
 import 'package:flutter_app2/shared/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:restart_app/restart_app.dart';
+
+import '../../models/user_model.dart';
 
 class HomeScreen extends StatelessWidget {
+  late UserModel model;
+
+  HomeScreen({required this.model});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,10 +50,48 @@ class HomeScreen extends StatelessWidget {
           children: [
             buildTitles(context, 'Most Popular Movies'),
             buildMostPopularMoviesList(),
-            buildTitles(context, 'Top Movies'),
-            buildTopMoviesList(),
-            buildTitles(context, 'Coming Soon'),
-            buildComingSoonMoviesList(),
+//            buildTitles(context, 'Top Movies'),
+//            buildTopMoviesList(),
+//            buildTitles(context, 'Coming Soon'),
+//            buildComingSoonMoviesList(),
+          ],
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            DrawerHeader(
+                child: Column(
+              children: [
+                CircleAvatar(backgroundColor: Colors.blue),
+                Text('${model.userName}'),
+                MaterialButton(child: Text('change photo'), onPressed: () {})
+              ],
+            )),
+            TextButton(
+              child: Text('favourite'),
+              onPressed: () {
+                navigateTo(context, FavouritesScreen(model, false));
+              },
+            ),
+            TextButton(
+              child: Text('edit profile'),
+              onPressed: () {
+                navigateTo(context, ProfileScreen(model));
+              },
+            ),
+            TextButton(
+              child: Text('log out'),
+              onPressed: () {
+                CachHelper.putBoolean(key: 'login', value: false);
+                FirebaseAuth.instance.signOut();
+                navigateAndFinish(
+                    context,
+                    LoginScreen(
+                      model: model,
+                    ));
+              },
+            ),
           ],
         ),
       ),
@@ -150,10 +201,7 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 6.0),
             child: InkWell(
               onTap: () {
-                navigateTo(
-                    context,
-                    MovieScreen(item.image, item.title, item.year, item.rating,
-                        item.id));
+                navigateTo(context, MovieScreen(item.id, model, false));
               },
               child: Container(
                 width: 125.0,
@@ -212,5 +260,4 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
 }

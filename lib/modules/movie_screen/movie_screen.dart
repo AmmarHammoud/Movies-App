@@ -1,40 +1,55 @@
 import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app2/models/movies_model.dart';
+import 'package:flutter_app2/models/single_movie_model.dart';
+import 'package:flutter_app2/models/user_model.dart';
+import 'package:flutter_app2/modules/favourites_screen/favourites_screen.dart';
 import 'package:flutter_app2/modules/movie_screen/cubit/cubit.dart';
 import 'package:flutter_app2/modules/movie_screen/cubit/movie_tariler_cubit/cubit.dart';
 import 'package:flutter_app2/modules/movie_screen/cubit/movie_tariler_cubit/states.dart';
 import 'package:flutter_app2/modules/movie_screen/cubit/states.dart';
+import 'package:flutter_app2/shared/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
+import 'package:tuple/tuple.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
+import 'package:tuple/tuple.dart';
 
 class MovieScreen extends StatelessWidget {
-  final String image;
-  final String title;
-  final String year;
-  final String rating;
   final String id;
+  final UserModel model;
+  final bool fromFav;
 
-  MovieScreen(this.image, this.title, this.year, this.rating, this.id);
+  MovieScreen(this.id, this.model, this.fromFav);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetMovieDetailsCubit()..getMovieDetails(this.id),
+      create: (context) =>
+          GetMovieDetailsCubit()..getMovieDetails(id, model.uId),
       child: BlocConsumer<GetMovieDetailsCubit, GetMovieDetailsStates>(
         listener: (context, state) {},
         builder: (context, state) {
           var smm = GetMovieDetailsCubit.get(context).smm;
           var actors = smm?.actors;
+          bool isFav = GetMovieDetailsCubit.get(context).isFav;
           return ConditionalBuilder(
             condition: state is! GetMovieDetailsLoadingState,
             builder: (context) => Scaffold(
               appBar: AppBar(
-                titleSpacing: 0.0,
-                title: Text('Movie\'s Details'),
-              ),
+                  titleSpacing: 0.0,
+                  title: Text('Movie\'s Details'),
+                  leading: fromFav
+                      ? IconButton(
+                          onPressed: () {
+                            navigateAndFinish(
+                                context, FavouritesScreen(model, true));
+                          },
+                          icon: Icon(Icons.arrow_back))
+                      : null),
               body: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Column(
@@ -49,7 +64,7 @@ class MovieScreen extends StatelessWidget {
                             child: Image(
                               height: 350.0,
                               fit: BoxFit.cover,
-                              image: NetworkImage(image),
+                              image: NetworkImage('${smm?.image}'),
                             ),
                           ),
                         ),
@@ -61,8 +76,11 @@ class MovieScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            title + ' ' + year,
-                            style: Theme.of(context).textTheme.headline4?.copyWith(color: Colors.white),
+                            '${smm?.title} ${smm?.year}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline4
+                                ?.copyWith(color: Colors.white),
                           ),
                           SizedBox(
                             height: 7.0,
@@ -70,7 +88,7 @@ class MovieScreen extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                rating,
+                                '${smm?.rating}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline6
@@ -83,6 +101,27 @@ class MovieScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+                          SizedBox(
+                            height: 7.0,
+                          ),
+                          IconButton(
+                              icon: Icon(
+                                Icons.heart_broken,
+                                color: isFav ? Colors.red : Colors.white,
+                              ),
+                              onPressed: () {
+                                GetMovieDetailsCubit.get(context)
+                                    .updateFavourites(
+                                        model,
+                                        SingleMovieModel(
+                                            title: '${smm?.title}',
+                                            image: '${smm?.image}',
+                                            id: id,
+                                            year: '${smm?.year}',
+                                            rating: '${smm?.rating}',
+                                            description: '${smm?.description}',
+                                            actors: smm?.actors));
+                              }),
                           SizedBox(
                             height: 7.0,
                           ),
@@ -110,7 +149,8 @@ class MovieScreen extends StatelessWidget {
                           SizedBox(
                             height: 7.0,
                           ),
-                          buildTrailer(),
+
+                          //buildTrailer(),
                           SizedBox(
                             height: 7.0,
                           ),
@@ -121,24 +161,24 @@ class MovieScreen extends StatelessWidget {
                           SizedBox(
                             height: 7.0,
                           ),
-                          Container(
-                            width: double.infinity,
-                            height: 130.0,
-                            child: ListView.separated(
-                              //controller: controller,
-                              physics: BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) => buildActors(
-                                  actors?[index].image,
-                                  actors?[index].name,
-                                  actors?[index].asWho),
-                              separatorBuilder: (context, index) => SizedBox(
-                                width: 10.0,
-                              ),
-                              itemCount: actors!.length,
-                            ),
-                          ),
+//                          Container(
+//                            width: double.infinity,
+//                            height: 130.0,
+//                            child: ListView.separated(
+//                              //controller: controller,
+//                              physics: BouncingScrollPhysics(),
+//                              scrollDirection: Axis.horizontal,
+//                              shrinkWrap: true,
+//                              itemBuilder: (context, index) => buildActors(
+//                                  actors?[index].image,
+//                                  actors?[index].name,
+//                                  actors?[index].asWho),
+//                              separatorBuilder: (context, index) => SizedBox(
+//                                width: 10.0,
+//                              ),
+//                              itemCount: actors!.length,
+//                            ),
+//                          ),
                           SizedBox(
                             height: 7.0,
                           ),
@@ -195,7 +235,7 @@ class MovieScreen extends StatelessWidget {
 
   Widget buildTrailer() {
     return BlocProvider(
-      create: (context) => MovieTrailerCubit()..getMovieTrailer(this.id),
+      create: (context) => MovieTrailerCubit()..getMovieTrailer(id),
       child: BlocConsumer<MovieTrailerCubit, MovieTrailerStates>(
         listener: (context, state) {},
         builder: (context, state) {

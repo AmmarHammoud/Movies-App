@@ -27,7 +27,7 @@ class DioHelper {
   }
 
   static Future<Response> getMovieDetails(String id)async{
-    return await dio.get('Title/k_q6aztflp/' + id);
+    return await dio.get('Title/k_aslht6w6/' + id);
   }
 
   static Future<Response> searchForMovie(String movie)async{
