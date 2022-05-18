@@ -94,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                 );
               },
               fallback: (context) =>
-                  Container(child: CircularProgressIndicator()));
+                  Center(child: CircularProgressIndicator()));
         },
       ),
     );

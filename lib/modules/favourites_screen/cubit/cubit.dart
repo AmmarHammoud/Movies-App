@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app2/models/user_model.dart';
 import 'package:flutter_app2/modules/favourites_screen/cubit/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tuple/tuple.dart';
 
 class GetFavouriteMoviesCubit extends Cubit<GetFavouriteMoviesStates> {
   GetFavouriteMoviesCubit() : super(GetFavouriteMoviesInitialState());

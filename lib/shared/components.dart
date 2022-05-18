@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app2/models/movies_model.dart';
 import 'package:flutter_app2/models/single_movie_model.dart';
-import 'package:tuple/tuple.dart';
 
 navigateTo(context, Widget widget) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => widget));

@@ -14,9 +14,7 @@ import 'package:flutter_app2/modules/movie_screen/cubit/states.dart';
 import 'package:flutter_app2/shared/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:marquee/marquee.dart';
-import 'package:tuple/tuple.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'package:tuple/tuple.dart';
 
 class MovieScreen extends StatelessWidget {
   final String id;
@@ -150,7 +148,7 @@ class MovieScreen extends StatelessWidget {
                             height: 7.0,
                           ),
 
-                          //buildTrailer(),
+                          buildTrailer(),
                           SizedBox(
                             height: 7.0,
                           ),
@@ -161,24 +159,24 @@ class MovieScreen extends StatelessWidget {
                           SizedBox(
                             height: 7.0,
                           ),
-//                          Container(
-//                            width: double.infinity,
-//                            height: 130.0,
-//                            child: ListView.separated(
-//                              //controller: controller,
-//                              physics: BouncingScrollPhysics(),
-//                              scrollDirection: Axis.horizontal,
-//                              shrinkWrap: true,
-//                              itemBuilder: (context, index) => buildActors(
-//                                  actors?[index].image,
-//                                  actors?[index].name,
-//                                  actors?[index].asWho),
-//                              separatorBuilder: (context, index) => SizedBox(
-//                                width: 10.0,
-//                              ),
-//                              itemCount: actors!.length,
-//                            ),
-//                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 130.0,
+                            child: ListView.separated(
+                              //controller: controller,
+                              physics: BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) => buildActors(
+                                  actors?[index].image,
+                                  actors?[index].name,
+                                  actors?[index].asWho),
+                              separatorBuilder: (context, index) => SizedBox(
+                                width: 10.0,
+                              ),
+                              itemCount: actors!.length,
+                            ),
+                          ),
                           SizedBox(
                             height: 7.0,
                           ),

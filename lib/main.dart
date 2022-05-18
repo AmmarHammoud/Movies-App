@@ -12,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app2/shared/chach_helper.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   DioHelper.init();
   await CachHelper.init();
@@ -28,7 +27,7 @@ Future<void> main() async {
         primarySwatch: Colors.deepPurple,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: MyApp(uId == null ? false : true, login == null ? false : login),
+      home: SafeArea(child: MyApp(uId == null ? false : true, login == null ? false : login)),
     ),
   );
 }

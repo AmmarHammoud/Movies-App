@@ -5,7 +5,11 @@ import 'package:flutter_app2/modules/movie_screen/movie_screen.dart';
 import 'package:flutter_app2/shared/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../models/user_model.dart';
+
 class SearchScreen extends StatelessWidget {
+  late UserModel userModel;
+  SearchScreen(this.userModel);
   @override
   Widget build(BuildContext context) {
     var search = TextEditingController();
@@ -35,9 +39,7 @@ class SearchScreen extends StatelessWidget {
                         Expanded(
                           child: TextFormField(
                             controller: search,
-                            onChanged: (String value){
-                              SearchForMovieCubit.get(context).searchForMovie(value);
-                            },
+                            onEditingComplete: (){SearchForMovieCubit.get(context).searchForMovie(search.text);},
                             style: TextStyle(fontSize: 20.0),
                             decoration: InputDecoration(
                               suffixIcon: Icon(Icons.search_rounded),
@@ -65,7 +67,7 @@ class SearchScreen extends StatelessWidget {
                                 physics: BouncingScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) =>
-                                    buildMovieItem(model?[index].image,
+                                    buildMovieItem(context, model?[index].id, model?[index].image,
                                         model?[index].title),
                                 separatorBuilder: (context, index) =>
                                     SizedBox(
@@ -88,21 +90,24 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  Widget buildMovieItem(String image, String title) {
-    return Row(
-      children: [
-        Container(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(25.0),
-            child: Image(
-              width: 100.0,
-              height: 125.0,
-              image: NetworkImage(image),
+  Widget buildMovieItem(context, String id, String image, String title) {
+    return InkWell(
+      onTap: (){navigateTo(context, MovieScreen(id, userModel, false));},
+      child: Row(
+        children: [
+          Container(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25.0),
+              child: Image(
+                width: 100.0,
+                height: 125.0,
+                image: NetworkImage(image),
+              ),
             ),
           ),
-        ),
-        Expanded(child: Text(title)),
-      ],
+          Expanded(child: Text(title)),
+        ],
+      ),
     );
   }
 }

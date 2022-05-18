@@ -1,5 +1,3 @@
-import 'package:tuple/tuple.dart';
-
 class UserModel {
   late String uId;
   late String? userName;

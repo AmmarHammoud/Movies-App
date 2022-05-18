@@ -9,9 +9,11 @@ class SearchModel{
 }
 
 class SearchResults{
+  late String id;
   late String title;
   late String image;
   SearchResults.formJson(Map<String, dynamic> json){
+    id = json['id'];
     title = json['title'];
     image = json['image'];
   }

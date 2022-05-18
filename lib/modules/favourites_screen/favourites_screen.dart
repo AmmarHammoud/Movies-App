@@ -9,7 +9,6 @@ import 'package:flutter_app2/modules/home_screen/home_screen.dart';
 import 'package:flutter_app2/modules/movie_screen/movie_screen.dart';
 import 'package:flutter_app2/shared/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tuple/tuple.dart';
 
 class FavouritesScreen extends StatelessWidget {
   UserModel model;

@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              navigateTo(context, SearchScreen());
+              navigateTo(context, SearchScreen(model));
             },
             icon: Icon(Icons.search),
           ),
@@ -50,38 +50,39 @@ class HomeScreen extends StatelessWidget {
           children: [
             buildTitles(context, 'Most Popular Movies'),
             buildMostPopularMoviesList(),
-//            buildTitles(context, 'Top Movies'),
-//            buildTopMoviesList(),
-//            buildTitles(context, 'Coming Soon'),
-//            buildComingSoonMoviesList(),
+            buildTitles(context, 'Top Movies'),
+            buildTopMoviesList(),
+            buildTitles(context, 'Coming Soon'),
+            buildComingSoonMoviesList(),
           ],
         ),
       ),
       drawer: Drawer(
-        child: ListView(
+        child: Column(
           children: [
-            DrawerHeader(
-                child: Column(
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
+            Column(
               children: [
-                CircleAvatar(backgroundColor: Colors.blue),
+                CircleAvatar(backgroundColor: Colors.blue, radius: 50.0),
+                SizedBox(height: 10.0,),
                 Text('${model.userName}'),
                 MaterialButton(child: Text('change photo'), onPressed: () {})
               ],
-            )),
+            ),
             TextButton(
-              child: Text('favourite'),
+              child: Text('favourite', style: TextStyle(color: Colors.blue),),
               onPressed: () {
                 navigateTo(context, FavouritesScreen(model, false));
               },
             ),
             TextButton(
-              child: Text('edit profile'),
+              child: Text('edit profile', style: TextStyle(color: Colors.blue),),
               onPressed: () {
                 navigateTo(context, ProfileScreen(model));
               },
             ),
             TextButton(
-              child: Text('log out'),
+              child: Text('log out', style: TextStyle(color: Colors.red),),
               onPressed: () {
                 CachHelper.putBoolean(key: 'login', value: false);
                 FirebaseAuth.instance.signOut();
