@@ -1,4 +1,4 @@
-# flutter_app2
+# S-Movies
 
 A new Flutter application.
 
