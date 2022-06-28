@@ -75,7 +75,6 @@ class GetMovieDetailsCubit extends Cubit<GetMovieDetailsStates> {
           .doc(model.uId)
           .set(model.toMap())
           .then((value) {
-        print('DONE ====');
         checkIsFav(model.uId, itemModel.id);
       }).catchError((error) {
         print(error.toString());

@@ -4,11 +4,10 @@ import 'package:flutter_app2/modules/home_screen/search_screen/cubit/states.dart
 import 'package:flutter_app2/modules/movie_screen/movie_screen.dart';
 import 'package:flutter_app2/shared/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../models/user_model.dart';
 
 class SearchScreen extends StatelessWidget {
-  late UserModel userModel;
+  final UserModel userModel;
   SearchScreen(this.userModel);
   @override
   Widget build(BuildContext context) {

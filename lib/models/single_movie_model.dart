@@ -43,9 +43,3 @@ class Actors {
     asWho = json['asCharacter'];
   }
 }
-
-class Similar {
-  late String id;
-  late String title;
-  late String image;
-}

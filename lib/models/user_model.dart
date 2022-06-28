@@ -3,11 +3,13 @@ class UserModel {
   late String? userName;
   late String email;
   late String password;
+
   /*
   * movieTitle1: [id, year, rating, image]
   * movieTitle2: [id, year, rating, image]
   * */
   late List<dynamic> favMovies = [];
+
   UserModel(
       {required this.uId,
       this.userName,
@@ -20,10 +22,11 @@ class UserModel {
       'userName': userName,
       'email': email,
       'password': password,
-      'favMovies':favMovies,
+      'favMovies': favMovies,
     };
   }
-  List<dynamic> fromJson(List<dynamic> list){
+
+  List<dynamic> fromJson(List<dynamic> list) {
     List<dynamic> l = [];
     /*
     0 {title : []}
@@ -31,8 +34,7 @@ class UserModel {
     2 {title : []}
     3 {title : []}
      */
-    for(int i = 0; i < list.length; i++)
-          l.add(list[i]);
+    for (int i = 0; i < list.length; i++) l.add(list[i]);
     return l;
   }
 }

@@ -1,9 +1,7 @@
 import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app2/models/movies_model.dart';
 import 'package:flutter_app2/models/single_movie_model.dart';
 import 'package:flutter_app2/models/user_model.dart';
 import 'package:flutter_app2/modules/favourites_screen/favourites_screen.dart';
@@ -19,6 +17,10 @@ import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 class MovieScreen extends StatelessWidget {
   final String id;
   final UserModel model;
+  ///if the user came from favourite screen and return back,
+  ///the list in favourite screen must be updated,
+  ///and the responsible of this update is [fromFav],
+  ///which will be sent to favourite screen to  as [true] to handle this.
   final bool fromFav;
 
   MovieScreen(this.id, this.model, this.fromFav);
@@ -31,6 +33,7 @@ class MovieScreen extends StatelessWidget {
       child: BlocConsumer<GetMovieDetailsCubit, GetMovieDetailsStates>(
         listener: (context, state) {},
         builder: (context, state) {
+          ///SingleMovieModel [smm]
           var smm = GetMovieDetailsCubit.get(context).smm;
           var actors = smm?.actors;
           bool isFav = GetMovieDetailsCubit.get(context).isFav;
@@ -65,6 +68,10 @@ class MovieScreen extends StatelessWidget {
                               image: NetworkImage('${smm?.image}'),
                             ),
                           ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            color: Colors.grey[300],
+                          ),
                         ),
                       ),
                     ),
@@ -86,7 +93,7 @@ class MovieScreen extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                '${smm?.rating}',
+                                'Rating: ${smm?.rating}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline6
@@ -147,7 +154,6 @@ class MovieScreen extends StatelessWidget {
                           SizedBox(
                             height: 7.0,
                           ),
-
                           buildTrailer(),
                           SizedBox(
                             height: 7.0,
@@ -222,7 +228,7 @@ class MovieScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10.0),
             child: Marquee(
               text: actorName + ' As: ' + asWho,
-              velocity: 30.0,
+              velocity: 25.0,
               blankSpace: 15.0,
             ),
           ),

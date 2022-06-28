@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ComingSoonCubit extends Cubit<ComingSoonStates>{
   ComingSoonCubit() : super(ComingSoonInitialState());
   static ComingSoonCubit get(context) => BlocProvider.of(context);
+  /// ComingSoon [cs]
   MoviesModel? cs;
   getComingSoon(){
     emit(GetComingSoonLoadingState());

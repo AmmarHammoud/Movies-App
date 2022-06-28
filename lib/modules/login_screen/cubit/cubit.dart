@@ -1,24 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_app2/models/user_model.dart';
 import 'package:flutter_app2/modules/login_screen/cubit/states.dart';
 import 'package:flutter_app2/shared/chach_helper.dart';
 import 'package:flutter_app2/shared/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../home_screen/home_screen.dart';
 
 class LoginCubit extends Cubit<LoginStates> {
   LoginCubit() : super(LoginInitialState());
 
   static LoginCubit get(context) => BlocProvider.of(context);
+  bool passwordIsShown = true;
+  changePasswordVisibility(){
+    if(passwordIsShown){
+      passwordIsShown = false;
+      emit(NotShownPassword());
+    }
+    else{
+      passwordIsShown = true;
+      emit(ShownPassword());
+    }
+  }
 
   void login(
       {required context,
       required String email,
       required String password}) {
     emit(LoginLoadingState());
-    String userName = 'USERNAME';
+    String? userName;
     FirebaseAuth.instance
         .signInWithEmailAndPassword(
       email: email,
@@ -35,7 +46,6 @@ class LoginCubit extends Cubit<LoginStates> {
           .get()
           .then((value) {
             userName = value.data()!['userName'];
-            //print('HERE IS THE USERNAME: $userName');
             CachHelper.putString(key: 'userName', value: userName);
       })
           .catchError((error) {});
@@ -52,6 +62,7 @@ class LoginCubit extends Cubit<LoginStates> {
           ));
     }).catchError((error) {
       print(error.toString());
+      showToast(context: context, text: error.toString(), color: Colors.red);
       emit(LoginErrorState(error.toString()));
     });
   }

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +17,10 @@ import 'package:flutter_app2/modules/profile_screen/profile_screen.dart';
 import 'package:flutter_app2/shared/chach_helper.dart';
 import 'package:flutter_app2/shared/components.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:restart_app/restart_app.dart';
-
 import '../../models/user_model.dart';
 
 class HomeScreen extends StatelessWidget {
-  late UserModel model;
+  final UserModel model;
 
   HomeScreen({required this.model});
 
@@ -59,16 +56,11 @@ class HomeScreen extends StatelessWidget {
       ),
       drawer: Drawer(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
-            Column(
-              children: [
-                CircleAvatar(backgroundColor: Colors.blue, radius: 50.0),
-                SizedBox(height: 10.0,),
-                Text('${model.userName}'),
-                MaterialButton(child: Text('change photo'), onPressed: () {})
-              ],
-            ),
+            Text('Welcome, ${model.userName}'),
+            SizedBox(height: 25.0,),
             TextButton(
               child: Text('favourite', style: TextStyle(color: Colors.blue),),
               onPressed: () {
@@ -105,6 +97,7 @@ class HomeScreen extends StatelessWidget {
       child: BlocConsumer<MostPopularMoviesCubit, MostPopularMoviesStates>(
         listener: (context, state) {},
         builder: (context, state) {
+          ///MostPopularMovies [mpm]
           var mpm = MostPopularMoviesCubit.get(context).mpm?.items;
           return ConditionalBuilder(
             condition: state is! GetMostPopularMoviesLoadingState,
@@ -136,6 +129,7 @@ class HomeScreen extends StatelessWidget {
       child: BlocConsumer<TopMoviesCubit, TopMoviesStates>(
         listener: (context, state) {},
         builder: (context, state) {
+          ///TopMovies [tm]
           var tm = TopMoviesCubit.get(context).top250?.items;
           return ConditionalBuilder(
             condition: state is! GetTopMoviesLoadingState,
@@ -167,6 +161,7 @@ class HomeScreen extends StatelessWidget {
       child: BlocConsumer<ComingSoonCubit, ComingSoonStates>(
         listener: (context, state) {},
         builder: (context, state) {
+          ///ComingSoon [cs]
           var cs = ComingSoonCubit.get(context).cs?.items;
           return ConditionalBuilder(
             condition: state is! GetComingSoonLoadingState,

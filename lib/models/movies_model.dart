@@ -32,15 +32,3 @@ class ItemModel {
     rating = json['imDbRating'];
   }
 }
-
-class Actors {
-  late String name;
-  late String image;
-  late String asWho;
-
-  Actors.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    image = json['image'];
-    asWho = json['asCharacter'];
-  }
-}

@@ -8,6 +8,7 @@ class MostPopularMoviesCubit extends Cubit<MostPopularMoviesStates>{
   MostPopularMoviesCubit() : super(MostPopularMoviesInitialState());
 
   static MostPopularMoviesCubit get(context) => BlocProvider.of(context);
+  ///MostPopularMovie [mpm]
   MoviesModel? mpm;
 
   getMostPopularMovies() {

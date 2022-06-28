@@ -1,14 +1,9 @@
-import 'dart:io';
-import 'dart:math';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app2/models/user_model.dart';
 import 'package:flutter_app2/modules/home_screen/home_screen.dart';
 import 'package:flutter_app2/modules/login_screen/login_screen.dart';
-import 'package:flutter_app2/modules/signin_screen/signin_screen.dart';
-import 'package:flutter_app2/shared/components.dart';
 import 'package:flutter_app2/shared/dio_helper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_app2/shared/chach_helper.dart';
 
 Future<void> main() async {
@@ -24,10 +19,12 @@ Future<void> main() async {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: SafeArea(child: MyApp(uId == null ? false : true, login == null ? false : login)),
+      home: SafeArea(
+          child:
+              MyApp(uId == null ? false : true, login == null ? false : login)),
     ),
   );
 }
@@ -35,10 +32,13 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   final bool loginVisited;
   final bool uId;
+
   MyApp(this.uId, this.loginVisited);
 
   @override
   Widget build(BuildContext context) {
+    ///if [uId] is not null, then there is an active user.
+    ///[uId] is true AND [loginVisited] is false, this means that the user has just sign up.
     return loginVisited && uId
         ? HomeScreen(
             model: UserModel(
